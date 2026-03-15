@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四元投资理论 - 周京昱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2c5282;
+            --accent-color: #d69e2e;
+            --text-color: #2d3748;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* 英雄区 */
+        .hero {
+            margin-top: 60px;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .hero .author {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .hero-buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #b7791f;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        /* 主要内容 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .section h3 {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            margin: 30px 0 15px 0;
+        }
+        
+        .section h4 {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin: 20px 0 10px 0;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background: var(--bg-color);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        tr:hover {
+            background: var(--bg-color);
+        }
+        
+        /* 引用块 */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            background: var(--bg-color);
+            font-style: italic;
+        }
+        
+        /* 代码块 */
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        /* 列表 */
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        /* 强调 */
+        strong {
+            color: var(--primary-color);
+        }
+        
+        /* 核心创新卡片 */
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .innovation-card {
+            background: var(--bg-color);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .innovation-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        /* 周期图 */
+        .cycle-diagram {
+            background: var(--bg-color);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 30px 0;
+            font-family: 'Consolas', monospace;
+            line-height: 2;
+        }
+        
+        /* 案例时间线 */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-color);
+            border-radius: 50%;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+        
+        /* 锚点偏移 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .section[id] {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">四元投资理论</div>
+            <ul class="nav-links">
+                <li><a href="#overview">理论概述</a></li>
+                <li><a href="#foundation">理论基础</a></li>
+                <li><a href="#mechanism">调仓机制</a></li>
+                <li><a href="#cases">历史案例</a></li>
+                <li><a href="#author">关于作者</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <header class="hero">
+        <h1>四元投资理论</h1>
+        <p class="subtitle">基于双层调仓的周期配置方法</p>
+        <p class="author">周京昱 著</p>
+        <div class="hero-buttons">
+            <a href="#overview" class="btn btn-primary">开始阅读</a>
+            <a href="#download" class="btn btn-secondary">下载PDF</a>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="container">
+        <!-- 理论概述 -->
+        <section class="section" id="overview">
+            <h2>📊 理论概述</h2>
+            <p>四元投资理论是一种基于经济周期的大类资产配置方法，启发自美林时钟，但进行了关键性的创新和发展。</p>
+            
+            <blockquote>
+                "我不知道明天市场会涨会跌，但我知道现在处于什么阶段。"
+            </blockquote>
+            
+            <h3>核心创新</h3>
+            <div class="innovation-grid">
+                <div class="innovation-card">
+                    <h4>🎯 模糊边界</h4>
+                    <p>不追求精确判断，而是用置信度来表达不确定性</p>
+                </div>
+                <div class="innovation-card">
+                    <h4>⏰ 单向流动</h4>
+                    <p>经济周期像时间一样单向流动，允许跳跃但不回头</p>
+                </div>
+                <div class="innovation-card">
+                    <h4>🏗️ 双层结构</h4>
+                    <p>大类资产+行业细分，既要方向对，也要结构优</p>
+                </div>
+                <div class="innovation-card">
+                    <h4>🚨 应急机制</h4>
+                    <p>黑天鹅不可避免，关键是应对速度</p>
+                </div>
+            </div>
+            
+            <h3>对比美林时钟</h3>
+            <table>
+                <tr>
+                    <th>维度</th>
+                    <th>美林时钟</th>
+                    <th>四元投资理论</th>
+                </tr>
+                <tr>
+                    <td>边界定义</td>
+                    <td>清晰四阶段</td>
+                    <td>模糊边界，单向流动</td>
+                </tr>
+                <tr>
+                    <td>阶段判定</td>
+                    <td>固定指标（GDP+通胀）</td>
+                    <td>动态回测优化，多指标融合</td>
+                </tr>
+                <tr>
+                    <td>调整机制</td>
+                    <td>阶段内固定配比</td>
+                    <td>连续微调，置信度驱动</td>
+                </tr>
+                <tr>
+                    <td>阶段流动</td>
+                    <td>可逆循环</td>
+                    <td>单向时间箭头，允许跳跃</td>
+                </tr>
+                <tr>
+                    <td>结构层次</td>
+                    <td>单层（四类资产）</td>
+                    <td>双层（品类+行业内）</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- 理论基础 -->
+        <section class="section" id="foundation">
+            <h2>📚 第一章 理论基础</h2>
+            
+            <h3>1.1 四类资产</h3>
+            <p>四元投资理论将可投资资产分为四大类别：</p>
+            <ol>
+                <li><strong>股票（Equity）</strong> — 经济增长的受益者</li>
+                <li><strong>债券（Bond）</strong> — 固定收益，衰退期避风港</li>
+                <li><strong>大宗商品（Commodity）</strong> — 通胀对冲工具</li>
+                <li><strong>现金（Cash）</strong> — 流动性储备，滞胀期防御</li>
+            </ol>
+            
+            <h3>1.2 经济周期四阶段</h3>
+            <p>基于经济增长和通胀两个维度，经济周期分为四个阶段：</p>
+            
+            <div class="cycle-diagram">
+                通胀↑<br>
+                │<br>
+                滞胀期(现金) │ 过热期(大宗商品)<br>
+                │<br>
+                ───────────┼───────────→ 经济增长<br>
+                │<br>
+                衰退期(债券) │ 复苏期(股票)<br>
+                │<br>
+                通胀↓
+            </div>
+            
+            <table>
+                <tr>
+                    <th>阶段</th>
+                    <th>经济</th>
+                    <th>通胀</th>
+                    <th>最优资产</th>
+                    <th>配比建议</th>
+                </tr>
+                <tr>
+                    <td>复苏期</td>
+                    <td>↑</td>
+                    <td>↓</td>
+                    <td>股票</td>
+                    <td>60-70%</td>
+                </tr>
+                <tr>
+                    <td>过热期</td>
+                    <td>↑</td>
+                    <td>↑</td>
+                    <td>大宗商品</td>
+                    <td>40-50%</td>
+                </tr>
+                <tr>
+                    <td>滞胀期</td>
+                    <td>↓</td>
+                    <td>↑</td>
+                    <td>现金</td>
+                    <td>30-40%</td>
+                </tr>
+                <tr>
+                    <td>衰退期</td>
+                    <td>↓</td>
+                    <td>↓</td>
+                    <td>债券</td>
+                    <td>50-60%</td>
+                </tr>
+            </table>
+            
+            <h3>1.3 单向时间箭头</h3>
+            <blockquote>
+                核心原则：经济周期像时间一样单向流动
+            </blockquote>
+            <ul>
+                <li>正常顺序：复苏 → 过热 → 滞胀 → 衰退 → 复苏</li>
+                <li>一旦确认进入下一阶段，绝不回头</li>
+                <li>允许跳过：衰退 → 复苏（跳过滞胀）</li>
+                <li>不强制补全：不纠结于缺失的阶段</li>
+            </ul>
+        </section>
+
+        <!-- 调仓机制 -->
+        <section class="section" id="mechanism">
+            <h2>⚙️ 第二章 双层调仓机制</h2>
+            
+            <h3>2.1 架构设计</h3>
+            <pre><code>┌─────────────────────────────────────┐
+│  第一层：四元品类调仓（月度）          │
+│  股票 ↔ 债券 ↔ 大宗商品 ↔ 现金        │
+│  根据周期阶段调整大类配比              │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│  第二层：品类内行业调仓（月度/事件驱动）│
+│  股票：科技 ↔ 消费 ↔ 周期 ↔ 金融...   │
+│  大宗商品：石油 ↔ 化工 ↔ 金属 ↔ 农产品 │
+│  根据微观事件调整内部结构              │
+└─────────────────────────────────────┘</code></pre>
+            
+            <h3>2.2 品类调仓</h3>
+            <p><strong>调仓频率：</strong>月度（每月1日）</p>
+            <p><strong>触发条件：</strong></p>
+            <ul>
+                <li>周期阶段置信度变化</li>
+                <li>重大政策/地缘事件</li>
+                <li>极端市场情绪</li>
+            </ul>
+            
+            <p><strong>配比调整逻辑：</strong></p>
+            <pre><code>当前配比 = f(阶段置信度, 风险预算, 极端情绪修正)
+阶段置信度 ∈ [0, 1]</code></pre>
+            
+            <h3>2.3 行业内调仓</h3>
+            <p><strong>股票内部细分：</strong></p>
+            <table>
+                <tr>
+                    <th>行业</th>
+                    <th>适用阶段</th>
+                    <th>触发事件</th>
+                </tr>
+                <tr>
+                    <td>科技成长</td>
+                    <td>复苏早期、流动性宽松</td>
+                    <td>降息、创新突破</td>
+                </tr>
+                <tr>
+                    <td>消费白马</td>
+                    <td>复苏中期、过热期</td>
+                    <td>收入预期改善</td>
+                </tr>
+                <tr>
+                    <td>周期资源</td>
+                    <td>过热期、滞胀期</td>
+                    <td>通胀上行、供需紧张</td>
+                </tr>
+                <tr>
+                    <td>金融地产</td>
+                    <td>衰退后期、复苏早期</td>
+                    <td>政策刺激、利率下行</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- 历史案例 -->
+        <section class="section" id="cases">
+            <h2>📈 第五章 历史案例</h2>
+            
+            <h3>2008年金融危机</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2007.10</div>
+                    <p><strong>过热期</strong> — 商品40% / 股票40% / 债券15% / 现金5%</p>
+                    <p>持有有色、煤炭，通胀高企，大宗商品暴涨</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2008.9</div>
+                    <p><strong>衰退期</strong> — 债券50% / 现金40% / 股票10%</p>
+                    <p>雷曼破产，清仓商品买国债，避开最惨下跌</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2009.3</div>
+                    <p><strong>复苏期</strong> — 股票60% / 债券25% / 现金15%</p>
+                    <p>四万亿刺激，重仓金融地产，抓住反弹主升浪</p>
+                </div>
+            </div>
+            
+            <h3>2020年新冠疫情</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2020.2</div>
+                    <p><strong>衰退期</strong> — 现金50% / 债券40% / 股票10%</p>
+                    <p>武汉封城，紧急避险，避开最恐慌时刻</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2020.4</div>
+                    <p><strong>复苏期</strong> — 股票50% / 债券30% / 现金20%</p>
+                    <p>美联储无限QE，加仓科技医药，抓住大反弹</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2</div>
+                    <p><strong>过热期</strong> — 股票50% / 商品30% / 债券15%</p>
+                    <p>通胀抬头，加仓大宗商品，涨幅50-100%</p>
+                </div>
+            </div>
+            
+            <h3>2026年伊朗战争（当前案例）</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2026.3.1</div>
+                    <p><strong>复苏期</strong> — 股票60% / 债券20% / 商品15% / 现金5%</p>
+                    <p>战争前正常配置</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026.3.10</div>
+                    <p><strong>商品期</strong> — 商品40% / 股票30% / 债券20% / 现金10%</p>
+                    <p>战争爆发，紧急调仓，股票降、商品升</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026.3.15</div>
+                    <p><strong>商品期</strong> — 商品50% / 股票25% / 债券15% / 现金10%</p>
+                    <p>油价破100美元，加仓石油至45%</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于作者 -->
+        <section class="section" id="author">
+            <h2>👤 关于作者</h2>
+            
+            <h3>周京昱</h3>
+            <p>四元投资理论创始人，资深投资人。</p>
+            
+            <blockquote>
+                "每次大亏，都是因为'死扛'；每次大赚，都是因为'顺势而为'。但问题是，什么是'势'？如何判断？"
+            </blockquote>
+            
+            <p>2023年冬，在复盘自己的投资经历时，周京昱开始思考如何设计一个更灵活、更实用的投资框架。经过两年的打磨和实盘验证，四元投资理论从模糊的想法，变成了可执行、可验证、可复制的投资方法。</p>
+            
+            <h3>核心哲学</h3>
+            <ol>
+                <li><strong>承认无知</strong> — "我不知道明天市场会涨会跌，但我知道现在处于什么阶段。"</li>
+                <li><strong>顺势而为</strong> — "不要试图预测市场，而要识别趋势，然后跟随。"</li>
+                <li><strong>控制风险</strong> — "投资的本质不是赚钱，而是不亏钱。活下去，才有机会。"</li>
+                <li><strong>保持灵活</strong> — "没有永恒的最优资产，只有当下的最优选择。"</li>
+            </ol>
+            
+            <blockquote>
+                "理论是地图，市场是 terrain。地图可以帮助你导航，但你必须亲自走每一步。"
+            </blockquote>
+        </section>
+
+        <!-- 下载 -->
+        <section class="section" id="download">
+            <h2>📥 下载完整版</h2>
+            <p>获取完整PDF版本，包含：</p>
+            <ul>
+                <li>全部8章完整内容</li>
+                <li>5个详细历史案例</li>
+                <li>回测框架和Python代码</li>
+                <li>快速参考卡和决策流程图</li>
+            </ul>
+            <div class="hero-buttons" style="margin-top: 20px;">
+                <a href="四元投资理论.md" download class="btn btn-primary">下载Markdown</a>
+                <a href="#" class="btn btn-secondary" style="background: var(--primary-color); color: white;">PDF版本制作中</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>《四元投资理论》© 2026 周京昱</p>
+        <p>投资有风险，本书观点仅供参考，不构成投资建议</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">最后更新：2026年3月15日 | 版本：v1.0</p>
+    </footer>
+</body>
+</html>
